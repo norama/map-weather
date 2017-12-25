@@ -1,0 +1,17 @@
+
+.jsonTable {
+  border: 2px solid #aaa;
+  padding: 2px;
+}
+
+.jsonOdd {
+  background: #eee;
+}
+
+.jsonCell {
+  font-family: Courier New, Courier, monospace;
+}
+
+.jsonCell_name {
+  font-weight: 600;
+}

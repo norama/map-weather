@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/react@^16.0.28":
+  version "16.0.31"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.31.tgz#5285da62f3ac62b797f6d0729a1d6181f3180c3e"
+
 abab@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -3682,6 +3686,10 @@ jest@20.0.4:
   dependencies:
     jest-cli "^20.0.4"
 
+jquery@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+
 js-base64@^2.1.9:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.0.tgz#9e566fee624751a1d720c966cd6226d29d4025aa"
@@ -6099,6 +6107,13 @@ trim-newlines@^1.0.0:
 trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
+
+ts-react-json-table@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/ts-react-json-table/-/ts-react-json-table-0.0.9.tgz#c5134450489d84cd90b23775eedfd6ca8c8a976b"
+  dependencies:
+    "@types/react" "^16.0.28"
+    react "^16.2.0"
 
 tty-browserify@0.0.0:
   version "0.0.0"
