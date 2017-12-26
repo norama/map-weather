@@ -1,0 +1,3 @@
+.weatherPopup .leaflet-popup-content-wrapper {
+  min-width: 360px;
+}

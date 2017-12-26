@@ -2,6 +2,7 @@
 .jsonTable {
   border: 2px solid #aaa;
   padding: 2px;
+  margin-top: 20px;
 }
 
 .jsonOdd {
@@ -12,6 +13,11 @@
   font-family: Courier New, Courier, monospace;
 }
 
+.jsonCell_value {
+  min-width: 180px;
+}
+
 .jsonCell_name {
   font-weight: 600;
+  min-width: 120px;
 }

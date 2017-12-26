@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import JsonTable from 'ts-react-json-table';
 
+import './WeatherMap.css';
 import './JsonTable.css';
 
 import {
@@ -24,13 +25,13 @@ const WeatherPopup = (props) => {
   }, {
     name: 'weather', value: w.weather[0].main + ': ' + w.weather[0].description
   }, {
-    name: 'wind', value: 'speed: ' + w.wind.speed
+    name: 'wind', value: 'speed (m/s): ' + w.wind.speed + (w.wind.deg ? '  direction (degrees): ' + w.wind.deg : '')
   }, {
-    name: 'humidity', value: w.main.humidity
+    name: 'humidity (%)', value: w.main.humidity
   }, {
-    name: 'pressure', value: w.main.pressure
+    name: 'pressure (hPa)', value: w.main.pressure
   }, {
-    name: 'temperature', value: w.main.temp
+    name: 'temperature (\u2103)', value: w.main.temp
   }];
 
   return <JsonTable rows={rows} settings={{header: false}} />;
@@ -47,9 +48,9 @@ class WeatherMarker extends Component {
         draggable={this.props.draggable}
         onDragend={this.handleDragend}>
 
-        <Popup>
+        <Popup className='weatherPopup'>
           <WeatherPopup weather={this.props.weather} />
-        </Popup>
+        </Popup>       
       </Marker>
     );
   }

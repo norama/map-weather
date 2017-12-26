@@ -11,6 +11,7 @@ export default function getWeather(latlng, callback) {
   $.getJSON(SERVICE_URL, {
     lat: latlng.lat, 
     lon: latlng.lng, 
+    units: 'metric',
     appid: APP_ID})
   .done((data) => {
     console.log("weather", data);
