@@ -1,3 +1,7 @@
-.weatherPopup .leaflet-popup-content-wrapper {
+.weather-Popup .leaflet-popup-content-wrapper {
   min-width: 360px;
+}
+
+.weather-Root .leaflet-container {
+  height: 800px;
 }

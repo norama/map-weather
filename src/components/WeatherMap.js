@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import _ from 'lodash';
 
 import JsonTable from 'ts-react-json-table';
 
@@ -44,11 +45,11 @@ class WeatherMarker extends Component {
     return (
       <Marker
         ref={this.props.id}
-        position={this.props.position}
-        draggable={this.props.draggable}
+        position={[this.props.latlng.lat, this.props.latlng.lng]}
+        draggable={true}
         onDragend={this.handleDragend}>
 
-        <Popup className='weatherPopup'>
+        <Popup className='weather-Popup'>
           <WeatherPopup weather={this.props.weather} />
         </Popup>       
       </Marker>
@@ -56,7 +57,7 @@ class WeatherMarker extends Component {
   }
 
   handleDragend = (e) => {
-    this.props.onDragend(e.target._latlng);
+    this.props.onDragend(this.props.id, e.target._latlng);
   };
 }
 
@@ -67,9 +68,9 @@ WeatherMarker.propTypes = {
 
 class WeatherMarkersList extends Component {
   render() {
-    const props = this.props;
-    const items = props.markers.map(({ key, ...props }) => (
-      <WeatherMarker key={key} {...props} />
+    const onDragend = this.props.onDragend;
+    const items = this.props.markers.map((marker) => (
+      <WeatherMarker key={marker.id} id={marker.id} latlng={marker.latlng} weather={marker.weather} onDragend={onDragend} />
     ));
     return <div style={{ display: 'none' }}>{items}</div>;   
   }
@@ -81,11 +82,7 @@ WeatherMarkersList.propTypes = {
 
 export default class WeatherMap extends Component {
   state = {
-    latlng: {
-      lat: 51.505,
-      lng: -0.09,
-    },
-    weather: {},
+    markers: [],
     center: {
       lat: 51.505,
       lng: -0.09,
@@ -95,19 +92,11 @@ export default class WeatherMap extends Component {
 
   render() {
 
-    const markers = [{ 
-      key: 'marker1', 
-      id: 'marker1',
-      draggable: true,
-      onDragend: this.updatePosition,
-      position: [this.state.latlng.lat, this.state.latlng.lng], 
-      weather: this.state.weather 
-    }];
-
-    return (
+    return (<div className='weather-Root'>
       <Map 
         center={this.state.center} 
         onLocationfound={this.handleLocationFound}
+        onClick={this.handleClick}
         ref="map"
         zoom={this.state.zoom}>
 
@@ -115,17 +104,34 @@ export default class WeatherMap extends Component {
           attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <WeatherMarkersList markers={markers} />
+        <WeatherMarkersList markers={this.state.markers} onDragend={this.updateMarker} />
       </Map>
-    )
+    </div>)
   }
 
-  updatePosition = (latlng) => {
+  addMarker= (latlng) => {
+    this.updateMarker(_.uniqueId('marker-'), latlng);
+  };
+
+  updateMarker = (id, latlng) => {
     const self = this;
     getWeather(latlng, (weather) => {
-      self.setState({
-        latlng,
-        weather
+      self.setState((prevState) => {
+        let markers = _.clone(prevState.markers);
+
+        const index = _.findIndex(markers, {id});
+        if (index !== -1) {
+          markers[index].weather = weather;
+          markers[index].latlng = latlng;
+        } else {
+          markers.push({
+            id, weather, latlng
+          });
+        }
+
+        return {
+          markers
+        };
       });
     });
 
@@ -135,9 +141,13 @@ export default class WeatherMap extends Component {
     this.setState({
       center: e.latlng
     }, () => {
-      this.updatePosition(this.state.center);
+      this.addMarker(this.state.center);
     });
   };
+
+  handleClick = (e) => {
+    this.addMarker(e.latlng);
+  }
 
   componentDidMount() {
     this.refs.map.leafletElement.locate();
