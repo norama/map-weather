@@ -17,68 +17,7 @@ import {
 
 import getWeather from '../services/WeatherData';
 
-const WeatherPopup = (props) => {
-  const w = props.weather;
-  const rows = [{
-    name: 'position', value: '(lat: '+w.coord.lat + ', lon: '+w.coord.lon + ')'
-  }, {
-    name: 'place', value: w.name + ' ('+ w.sys.country +')'
-  }, {
-    name: 'weather', value: w.weather[0].main + ': ' + w.weather[0].description
-  }, {
-    name: 'wind', value: 'speed (m/s): ' + w.wind.speed + (w.wind.deg ? '  direction (degrees): ' + w.wind.deg : '')
-  }, {
-    name: 'humidity (%)', value: w.main.humidity
-  }, {
-    name: 'pressure (hPa)', value: w.main.pressure
-  }, {
-    name: 'temperature (\u2103)', value: w.main.temp
-  }];
 
-  return <JsonTable rows={rows} settings={{header: false}} />;
-};
- 
-
-class WeatherMarker extends Component {
-
-  render() {
-    return (
-      <Marker
-        ref={this.props.id}
-        position={[this.props.latlng.lat, this.props.latlng.lng]}
-        draggable={true}
-        onDragend={this.handleDragend}>
-
-        <Popup className='weather-Popup'>
-          <WeatherPopup weather={this.props.weather} />
-        </Popup>       
-      </Marker>
-    );
-  }
-
-  handleDragend = (e) => {
-    this.props.onDragend(this.props.id, e.target._latlng);
-  };
-}
-
-WeatherMarker.propTypes = {
-  children: MapPropTypes.children,
-  position: MapPropTypes.latlng,
-}
-
-class WeatherMarkersList extends Component {
-  render() {
-    const onDragend = this.props.onDragend;
-    const items = this.props.markers.map((marker) => (
-      <WeatherMarker key={marker.id} id={marker.id} latlng={marker.latlng} weather={marker.weather} onDragend={onDragend} />
-    ));
-    return <div style={{ display: 'none' }}>{items}</div>;   
-  }
-}
-
-WeatherMarkersList.propTypes = {
-  markers: PropTypes.array.isRequired,
-}
 
 export default class WeatherMap extends Component {
   state = {
@@ -153,3 +92,68 @@ export default class WeatherMap extends Component {
     this.refs.map.leafletElement.locate();
   }
 }
+
+
+class WeatherMarkersList extends Component {
+  render() {
+    const onDragend = this.props.onDragend;
+    const items = this.props.markers.map((marker) => (
+      <WeatherMarker key={marker.id} id={marker.id} latlng={marker.latlng} weather={marker.weather} onDragend={onDragend} />
+    ));
+    return <div style={{ display: 'none' }}>{items}</div>;   
+  }
+}
+
+WeatherMarkersList.propTypes = {
+  markers: PropTypes.array.isRequired,
+}
+
+class WeatherMarker extends Component {
+
+  render() {
+    return (
+      <Marker
+        ref={this.props.id}
+        position={[this.props.latlng.lat, this.props.latlng.lng]}
+        draggable={true}
+        onDragend={this.handleDragend}>
+
+        <Popup className='weather-Popup'>
+          <WeatherPopup weather={this.props.weather} />
+        </Popup>       
+      </Marker>
+    );
+  }
+
+  handleDragend = (e) => {
+    this.props.onDragend(this.props.id, e.target._latlng);
+  };
+}
+
+WeatherMarker.propTypes = {
+  children: MapPropTypes.children,
+  position: MapPropTypes.latlng,
+}
+
+const WeatherPopup = (props) => {
+  const w = props.weather;
+  const rows = [{
+    name: 'position', value: '(lat: '+w.coord.lat + ', lon: '+w.coord.lon + ')'
+  }, {
+    name: 'place', value: w.name + ' ('+ w.sys.country +')'
+  }, {
+    name: 'weather', value: w.weather[0].main + ': ' + w.weather[0].description
+  }, {
+    name: 'wind', value: 'speed (m/s): ' + w.wind.speed + (w.wind.deg ? '  direction (degrees): ' + w.wind.deg : '')
+  }, {
+    name: 'humidity (%)', value: w.main.humidity
+  }, {
+    name: 'pressure (hPa)', value: w.main.pressure
+  }, {
+    name: 'temperature (\u2103)', value: w.main.temp
+  }];
+
+  return <JsonTable rows={rows} settings={{header: false}} />;
+};
+ 
+
