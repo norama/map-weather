@@ -18,7 +18,7 @@ on the marker.
 
 ## Demo
 
-The application can be seen [here](https://norama.github.io/weather-map).
+The application can be seen [here](https://norama.github.io/map-weather).
 
 ## Available Scripts
 
