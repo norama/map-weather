@@ -1,10 +1,10 @@
 import $ from 'jquery';
 
-const SERVICE_URL = 'http://api.openweathermap.org/data/2.5/weather';
+const SERVICE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
 const APP_ID = '702a42edfe2011323fbcbe4cc46a6a41';
 
-// http://api.openweathermap.org/data/2.5/weather?lat=51.5&lon=-0.1&appid=702a42edfe2011323fbcbe4cc46a6a41
+// https://api.openweathermap.org/data/2.5/weather?lat=51.5&lon=-0.1&appid=702a42edfe2011323fbcbe4cc46a6a41
 
 
 export default function getWeather(latlng, callback) {
