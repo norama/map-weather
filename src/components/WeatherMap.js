@@ -48,7 +48,7 @@ export default class WeatherMap extends Component {
     </div>)
   }
 
-  addMarker= (latlng) => {
+  addMarker = (latlng) => {
     this.updateMarker(_.uniqueId('marker-'), latlng);
   };
 
@@ -120,7 +120,7 @@ class WeatherMarker extends Component {
 
         <Popup className='weather-Popup'>
           <WeatherPopup weather={this.props.weather} />
-        </Popup>       
+        </Popup>
       </Marker>
     );
   }
