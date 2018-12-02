@@ -5,3 +5,7 @@
 .weather-Root .leaflet-container {
   height: 800px;
 }
+
+.leaflet-popup-content {
+  width: inherit !important;
+}

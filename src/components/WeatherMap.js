@@ -11,8 +11,7 @@ import {
   Map,
   TileLayer,
   Marker,
-  Popup,
-  PropTypes as MapPropTypes
+  Popup
 } from 'react-leaflet';
 
 import getWeather from '../services/WeatherData';
@@ -128,11 +127,6 @@ class WeatherMarker extends Component {
   handleDragend = (e) => {
     this.props.onDragend(this.props.id, e.target._latlng);
   };
-}
-
-WeatherMarker.propTypes = {
-  children: MapPropTypes.children,
-  position: MapPropTypes.latlng,
 }
 
 const WeatherPopup = (props) => {

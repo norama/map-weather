@@ -4,25 +4,31 @@
   "private": false,
   "homepage": "https://norama.github.io/map-weather",
   "dependencies": {
-    "jquery": "^3.2.1",
-    "leaflet": "^1.2.0",
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-leaflet": "^1.7.8",
-    "react-scripts": "1.0.17",
-    "ts-react-json-table": "^0.0.9"
+    "jquery": "^3.3.1",
+    "leaflet": "^1.3.4",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-leaflet": "^2.1.2",
+    "react-scripts": "2.1.1",
+    "ts-react-json-table": "^0.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "prepublish": "babel ./src --out-dir ./lib --ignore index.js,*.test.js,__snapshot__ --copy-files --source-maps --presets es2015,react --plugins babel-plugin-add-module-exports"
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "gh-pages": "^2.0.0"
-  }
+  },
+  "resolutions": {
+    "merge": "^1.2.1"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
