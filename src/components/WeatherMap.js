@@ -4,6 +4,8 @@ import _ from 'lodash';
 
 import JsonTable from 'ts-react-json-table';
 
+import { ReactLeafletSearch } from 'react-leaflet-search';
+
 import './WeatherMap.css';
 import './JsonTable.css';
 
@@ -11,21 +13,30 @@ import {
   Map,
   TileLayer,
   Marker,
-  Popup
+  Popup,
+  ZoomControl,
+  withLeaflet
 } from 'react-leaflet';
 
 import getWeather from '../services/WeatherData';
 
-
+const Search = withLeaflet(ReactLeafletSearch);
 
 export default class WeatherMap extends Component {
-  state = {
-    markers: [],
-    center: {
-      lat: 51.505,
-      lng: -0.09,
-    },
-    zoom: 13,
+
+  constructor(props) {
+    super(props);
+
+    this.mapRef = React.createRef();
+
+    this.state = {
+      markers: [],
+      center: {
+        lat: 51.505,
+        lng: -0.09,
+      },
+      zoom: 13,
+    };
   }
 
   render() {
@@ -35,17 +46,38 @@ export default class WeatherMap extends Component {
         center={this.state.center} 
         onLocationfound={this.handleLocationFound}
         onClick={this.handleClick}
-        ref="map"
+        ref={this.mapRef}
+        zoomControl={false}
         zoom={this.state.zoom}>
 
         <TileLayer
           attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <ZoomControl
+          position="bottomright"
+        />
+        <Search
+          position="topleft"
+          provider="OpenStreetMap"
+          showMarker={true}
+          showPopup={true}
+          popUp={this.WeatherPopupFromSearch}
+          closeResultsOnClick={true}
+        />
         <WeatherMarkersList markers={this.state.markers} onDragend={this.updateMarker} />
       </Map>
     </div>)
   }
+
+  WeatherPopupFromSearch = (SearchInfo) => (
+    <WeatherPopupController
+      latlng={{
+        lat: SearchInfo.latLng[0],
+        lng: SearchInfo.latLng[1]
+      }}
+    />
+  );
 
   addMarker = (latlng) => {
     this.updateMarker(_.uniqueId('marker-'), latlng);
@@ -88,10 +120,34 @@ export default class WeatherMap extends Component {
   }
 
   componentDidMount() {
-    this.refs.map.leafletElement.locate();
+    this.mapRef.current.leafletElement.locate();
   }
 }
 
+class WeatherPopupController extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      weather: null
+    };
+  }
+
+  render() {
+    return this.state.weather ? (
+      <Popup className='weather-Popup'>
+        <WeatherPopup weather={this.state.weather} />
+      </Popup>
+    ) : null;
+  }
+
+  componentDidMount() {
+    getWeather(this.props.latlng, (weather) => {
+      this.setState({ weather });
+    });
+  }
+}
 
 class WeatherMarkersList extends Component {
   render() {
@@ -129,8 +185,8 @@ class WeatherMarker extends Component {
   };
 }
 
-const WeatherPopup = (props) => {
-  const w = props.weather;
+const WeatherPopup = ({ weather }) => {
+  const w = weather;
   const rows = [{
     name: 'position', value: '(lat: '+w.coord.lat + ', lon: '+w.coord.lon + ')'
   }, {
