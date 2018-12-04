@@ -165,10 +165,16 @@ WeatherMarkersList.propTypes = {
 
 class WeatherMarker extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.markerRef = React.createRef();
+  }
+
   render() {
     return (
       <Marker
-        ref={this.props.id}
+        ref={this.markerRef}
         position={[this.props.latlng.lat, this.props.latlng.lng]}
         draggable={true}
         onDragend={this.handleDragend}>
@@ -178,6 +184,16 @@ class WeatherMarker extends Component {
         </Popup>
       </Marker>
     );
+  }
+
+  componentDidMount() {
+    this.markerRef.current.leafletElement.openPopup();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.latlng !== prevProps.latlng || this.props.weather !== prevProps.weather) {
+      this.markerRef.current.leafletElement.openPopup();
+    }
   }
 
   handleDragend = (e) => {

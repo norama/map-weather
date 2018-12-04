@@ -8,4 +8,5 @@
 
 .leaflet-popup-content {
   width: inherit !important;
+  margin: 2px 22px 20px 22px !important;
 }
