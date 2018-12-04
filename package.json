@@ -18,7 +18,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "prepublish": "babel ./src --out-dir ./lib --ignore index.js,*.test.js,__snapshot__ --copy-files --source-maps --presets es2015,react --plugins babel-plugin-add-module-exports"
   },
   "devDependencies": {
     "babel-polyfill": "^6.26.0",
