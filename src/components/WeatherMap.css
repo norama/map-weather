@@ -10,3 +10,11 @@
   width: inherit !important;
   margin: 2px 22px 20px 22px !important;
 }
+
+.leaflet-search-icon {
+  cursor: pointer;
+}
+
+.leaflet-search-icon:hover {
+  background-color: #e2e2e2;
+}

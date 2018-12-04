@@ -20,7 +20,32 @@ import {
 
 import getWeather from '../services/WeatherData';
 
-const Search = withLeaflet(ReactLeafletSearch);
+class WeatherMapSearch extends ReactLeafletSearch {
+
+  constructor(props, context) {
+    super(Object.assign({ showMarker: false }, props), context);
+  }
+
+  latLngHandler(latLng, info) {
+
+    this.setState({ search: latLng, info: info }, () => {
+      this.flyTo();
+
+      const latlng = {
+        lat: latLng[0],
+        lng: latLng[1]
+      };
+
+      this.props.addMarker(latlng);
+    });
+  }
+
+  render() {
+    return null;
+  }
+}
+
+const Search = withLeaflet(WeatherMapSearch);
 
 export default class WeatherMap extends Component {
 
@@ -62,22 +87,13 @@ export default class WeatherMap extends Component {
           provider="OpenStreetMap"
           showMarker={true}
           showPopup={true}
-          popUp={this.WeatherPopupFromSearch}
+          addMarker={this.addMarker}
           closeResultsOnClick={true}
         />
         <WeatherMarkersList markers={this.state.markers} onDragend={this.updateMarker} />
       </Map>
     </div>)
   }
-
-  WeatherPopupFromSearch = (SearchInfo) => (
-    <WeatherPopupController
-      latlng={{
-        lat: SearchInfo.latLng[0],
-        lng: SearchInfo.latLng[1]
-      }}
-    />
-  );
 
   addMarker = (latlng) => {
     this.updateMarker(_.uniqueId('marker-'), latlng);
@@ -121,31 +137,6 @@ export default class WeatherMap extends Component {
 
   componentDidMount() {
     this.mapRef.current.leafletElement.locate();
-  }
-}
-
-class WeatherPopupController extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      weather: null
-    };
-  }
-
-  render() {
-    return this.state.weather ? (
-      <Popup className='weather-Popup'>
-        <WeatherPopup weather={this.state.weather} />
-      </Popup>
-    ) : null;
-  }
-
-  componentDidMount() {
-    getWeather(this.props.latlng, (weather) => {
-      this.setState({ weather });
-    });
   }
 }
 
