@@ -12,8 +12,8 @@ class App extends Component {
           <h1 className="App-title">Map Weather</h1>
           <div className="App-help">
             <div>
-              <div className="App-help-item"><div className="App-help-click">Click on map:</div> place marker</div>
-              <div className="App-help-item"><div className="App-help-click">Click on marker:</div> display weather data</div>
+              <div className="App-help-item"><div className="App-help-click">Click on map / search location:</div> place marker with weather data</div>
+              <div className="App-help-item"><div className="App-help-click">Drag marker:</div> display weather data at modified location</div>
             </div>
           </div>
         </header>
