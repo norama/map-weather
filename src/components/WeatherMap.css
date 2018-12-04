@@ -1,3 +1,11 @@
+.leaflet-top, .leaflet-bottom {
+  position: fixed !important;
+}
+
+.leaflet-top {
+  top: 100px !important;
+}
+
 .weather-Popup .leaflet-popup-content-wrapper {
   min-width: 360px;
 }

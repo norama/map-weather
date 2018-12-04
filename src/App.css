@@ -4,10 +4,15 @@
 }
 
 .App-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   background-color: rgb(112, 106, 106);
   height: 80px;
   padding: 10px;
   color: white;
+  z-index: 800;
 }
 
 .App-title {
